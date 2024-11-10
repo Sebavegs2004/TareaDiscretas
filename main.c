@@ -6,8 +6,6 @@
 int main(int argc, char const *argv[]){
 	FILE *file = fopen("grafo.txt", "r");
 	char linea[256];
-	char *inicio_tok;
-	char *tok;
 	int n;
 
 	if(fgets(linea, sizeof(linea), file) != NULL){
@@ -25,12 +23,11 @@ int main(int argc, char const *argv[]){
 	}
 
 	while(fgets(linea, sizeof(linea), file) != NULL){
-		inicio_tok = strstr(linea, " ");
-		tok = strtok(inicio_tok, ", ");
-	    while (tok != NULL) {
-	    	matriz_ad[fila][atoi(tok) - 1] = 1;
-	        tok = strtok(NULL, ", "); 
-	    }	
+		for(int x = 2; x < strlen(linea); x++){
+			if(isdigit(linea[x]) && (atoi(&linea[x]) <= n)){
+				matriz_ad[fila][atoi(&linea[x]) - 1] = 1;
+			}
+		}
 		fila += 1;
 	}
 
@@ -40,9 +37,6 @@ int main(int argc, char const *argv[]){
 		}
 		printf("\n");
 	}
-
-
-
 }
 
 
