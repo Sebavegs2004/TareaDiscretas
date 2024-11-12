@@ -12,7 +12,7 @@ void DFS(int v) {
     printf("\nDFS v = %d \n", v + 1);
     visitado[v] = 1;
     for (int i = 0; i < V; i++) {
-        printf("matriz[%d][%d] = ", v, i);
+        printf("matriz[%d][%d] = ", v + 1, i + 1);
         printf("%d\n", grafo[v][i]);
         for (int i = 0; i < V; i++) {
             printf("%d ", visitado[i]);
@@ -41,7 +41,7 @@ char *esConexo() {
     for (int i = 0; i < V; i++) {
         if (!visitado[i]) {
             ResetVisitados();
-            printf("----------------fin dfs -------------------------------\n");
+            printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n---------------- FALLO dfs -------------------------------\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
             return "no";
         }
     }
@@ -51,13 +51,18 @@ char *esConexo() {
 }
 
 int main() {
-    FILE *file = fopen("grafo.txt", "r");
+    char linea[256] , k1[] = "si", k2[] = "si", k3[] = "si", k4[] = "si", Conex[] = "Si", nombre_archivo[100];
+    printf("Ingrese el nombre del archivo = ");
+    fgets(nombre_archivo, sizeof(nombre_archivo), stdin);
+    nombre_archivo[strlen(nombre_archivo) - 1] = '\0';
+
+
+    FILE *file = fopen(nombre_archivo, "r");
     if (file == NULL) {
-        printf("Error al abrir el archivo.\n");
+        printf("Error al abrir el archivo o no existe.\n");
         return 1;
     }
 
-    char linea[256] , k1[] = "si", k2[] = "si", k3[] = "si", k4[] = "si", Conex[] = "Si";
     if (fgets(linea, sizeof(linea), file) != NULL) {
         linea[strcspn(linea, "\n")] = '\0';
         V = atoi(linea);
@@ -80,11 +85,11 @@ int main() {
     int fila = 0, GradMax = 0, GradMin = 0, Grad = 0;
 
     while (fgets(linea, sizeof(linea), file) != NULL && fila < V) {
-        for (int x = 2; x < strlen(linea); x++) {
-            if (isdigit(linea[x]) && (atoi(&linea[x]) <= V)) {
-                grafo[fila][atoi(&linea[x]) - 1] = 1;
-                Grad += 1;
-            }
+        char *token = strtok(strchr(linea, ' '), ", ");
+        while(token != NULL){
+            grafo[fila][atoi(token) - 1] = 1;
+            Grad += 1;
+            token = strtok(NULL, ", ");
         }
         if(Grad > GradMax){
             GradMax = Grad;
@@ -147,14 +152,8 @@ int main() {
                         }
                         visitado[k] = 0;
                     }
-                    else{
-                        strcpy(k4, "no");
-                    }
                 }  
                 visitado[j] = 0;
-            }
-            else{
-                strcpy(k3, "no");
             }
         }
         visitado[i] = 0;
