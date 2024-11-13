@@ -84,23 +84,26 @@ int main() {
                 }
 
                 while (fgets(linea, sizeof(linea), file) != NULL && fila < V) {
-                    char *token = strtok(strchr(linea, ' '), ", ");
-                    while(token != NULL){
-                        grafo[fila][atoi(token) - 1] = 1;
-                        Grad += 1;
-                        token = strtok(NULL, ", ");
-                    }
-                    if(Grad > GradMax){
-                        GradMax = Grad;
-                        if(fila == 0){
+                    if(strchr(linea, ' ') != NULL){
+                        printf("fila = %d\n", fila);
+                        char *token = strtok(strchr(linea, ' '), ", ");
+                        while(token != NULL){
+                            grafo[fila][atoi(token) - 1] = 1;
+                            Grad += 1;
+                            token = strtok(NULL, ", ");
+                        }
+                        if(Grad > GradMax){
+                            GradMax = Grad;
+                            if(fila == 0){
+                                GradMin = Grad;
+                            }
+                        }
+                        if(Grad < GradMin){
                             GradMin = Grad;
                         }
+                        Grad = 0;
+                        fila += 1;
                     }
-                    if(Grad < GradMin){
-                        GradMin = Grad;
-                    }
-                    Grad = 0;
-                    fila += 1;
                 }
                 fclose(file);
 
