@@ -150,7 +150,7 @@ int main() {
                     }
                 }
             } else{
-                K = 4;
+                K = V;
             }
 
             printf("\n");
@@ -164,14 +164,14 @@ int main() {
                     printf("\n[El grado minimo es %d]\n\n", GradMin);
                 }
                 else if(Opcion2 == 3){
-                    if(K > 0){
+                    if(K > 0 || V == 1){
                         printf("\n[Es conexo]\n\n");
                     } else{
                         printf("\n[No es conexo]\n\n");
                     }
                 }
                 else if(Opcion2 == 4){
-                    if(K > 0){
+                    if(K > 0 || V == 1){
                         printf("\n[Es %d-Conexo]\n\n", K);
                     }
                     else{
