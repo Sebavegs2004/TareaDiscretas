@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <time.h>
 
 int **grafo;
 int *visitado;
@@ -41,8 +42,8 @@ bool esConexo() {
 }
 
 int main() {
-    K = 5;
     char linea[256] , nombre_archivo[100];
+    clock_t inicio, fin;
 
     while(1){
         int fila = 0, GradMax = 0, GradMin = 0, Grad = 0, Lock = 0, Opcion1, Opcion2;
@@ -58,6 +59,7 @@ int main() {
             if (file == NULL) {
                 printf("Error al abrir el archivo o no existe.\n\n");
             } else{
+                inicio = clock();
                 int fila = 0, GradMax = 0, GradMin = 0, Grad = 0, Lock = 0, Opcion1, Opcion2;
 
                 if (fgets(linea, sizeof(linea), file) != NULL) {
@@ -154,6 +156,9 @@ int main() {
                 } else{
                     K = V;
                 }
+
+                fin = clock();
+                printf("\n[Tiempo de ejecucion = %fs]\n", ((double)(fin - inicio)) / CLOCKS_PER_SEC);
 
                 printf("\n");
                 while(1){
