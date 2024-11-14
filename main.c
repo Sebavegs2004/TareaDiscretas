@@ -50,158 +50,158 @@ int main() {
         int fila = 0, GradMax = 0, GradMin = 0, Grad = 0, Lock = 0, Opcion1, Opcion2;
         printf("¿Que quieres hacer?\n(1) Cargar grafo\n(2) Salir\nOpcion = ");
         scanf("%d", &Opcion1);
-        switch (Opcion1){
-            case 1:
-                printf("Ingrese el nombre del archivo = ");
-                scanf(" %[^\n]", nombre_archivo);
-                FILE *file = fopen(nombre_archivo, "r");
-                if (file == NULL) {
-                    printf("Error al abrir el archivo o no existe.\n\n");
-                } else{
-                    system("clear");
-                    inicio = clock();
-                    int fila = 0, GradMax = 0, GradMin = 0, Grad = 0, Lock = 4, Opcion1, Opcion2;
+        if(Opcion1 == 2){
+            exit(0);
+        }
+        else if(Opcion1 == 1){
+            printf("Ingrese el nombre del archivo = ");
+            scanf(" %[^\n]", nombre_archivo);
+            FILE *file = fopen(nombre_archivo, "r");
+            if (file == NULL) {
+                system("clear");
+                printf("Error al abrir el archivo o no existe.\n\n");
+            } else{
+                system("clear");
+                inicio = clock();
+                int fila = 0, GradMax = 0, GradMin = 0, Grad = 0, Lock = 4, Opcion1, Opcion2;
 
-                    if (fgets(linea, sizeof(linea), file) != NULL) {
-                        linea[strcspn(linea, "\n")] = '\0';
-                        V = atoi(linea);
+                if (fgets(linea, sizeof(linea), file) != NULL) {
+                    linea[strcspn(linea, "\n")] = '\0';
+                    V = atoi(linea);
+                }
+
+                if(V != 0 && V != 1){
+                    grafo = (int **)malloc(V * sizeof(int *));
+                    for (int i = 0; i < V; i++) {
+                        grafo[i] = (int *)malloc(V * sizeof(int));
+                    }
+                    visitado = (int *)malloc(V * sizeof(int));
+
+                    ResetVisitados(); 
+
+                    for (int i = 0; i < V; i++) {
+                        for (int j = 0; j < V; j++) {
+                            grafo[i][j] = 0;
+                        }
                     }
 
-                    if(V != 0 && V != 1){
-                        grafo = (int **)malloc(V * sizeof(int *));
-                        for (int i = 0; i < V; i++) {
-                            grafo[i] = (int *)malloc(V * sizeof(int));
-                        }
-                        visitado = (int *)malloc(V * sizeof(int));
-
-                        ResetVisitados(); 
-
-                        for (int i = 0; i < V; i++) {
-                            for (int j = 0; j < V; j++) {
-                                grafo[i][j] = 0;
+                    while (fgets(linea, sizeof(linea), file) != NULL && fila < V) {
+                        if(strchr(linea, ' ') != NULL){
+                            char *token = strtok(strchr(linea, ' '), ", ");
+                            while(token != NULL){
+                                grafo[fila][atoi(token) - 1] = 1;
+                                Grad += 1;
+                                token = strtok(NULL, ", ");
                             }
-                        }
-
-                        while (fgets(linea, sizeof(linea), file) != NULL && fila < V) {
-                            if(strchr(linea, ' ') != NULL){
-                                char *token = strtok(strchr(linea, ' '), ", ");
-                                while(token != NULL){
-                                    grafo[fila][atoi(token) - 1] = 1;
-                                    Grad += 1;
-                                    token = strtok(NULL, ", ");
-                                }
-                                if(Grad > GradMax){
-                                    GradMax = Grad;
-                                    if(fila == 0){
-                                        GradMin = Grad;
-                                    }
-                                }
-                                if(Grad < GradMin){
+                            if(Grad > GradMax){
+                                GradMax = Grad;
+                                if(fila == 0){
                                     GradMin = Grad;
                                 }
-                                Grad = 0;
-                                fila += 1;
                             }
-                        }
-                        fclose(file);
-                        if(!esConexo()){
-                            K = 0;
-                        } else{
-                            K = 1;
-                            for(int i = 0; i < V && Lock > 1; i++){
-                                visitado[i] = 1;
-                                if(!esConexo()){
-                                    K = 1;
-                                    Lock = 1;
-                                } else{
-                                    K = 2;
-                                }
-                                for(int j = 0; j < V && Lock > 2; j++){
-                                    if (j != i && V > 2){
-                                        visitado[i] = 1;
-                                        visitado[j] = 1;
-                                        if(!esConexo()){
-                                            K = 2;
-                                            Lock = 2;
-                                        } else{
-                                            K = 3;
-                                        }
-                                        for(int k = 0; k < V && Lock > 3; k++){
-                                            if ( k != i && k != j && V > 3){
-                                                visitado[i] = 1;
-                                                visitado[j] = 1;
-                                                visitado[k] = 1;
-                                                if(!esConexo()){
-                                                    K = 3;
-                                                    Lock = 3;
-                                                } else{
-                                                    K = 4;
-                                                }
-                                                visitado[k] = 0;
-                                            }
-                                        }  
-                                        visitado[j] = 0;
-                                    }
-                                }
-                                visitado[i] = 0;
+                            if(Grad < GradMin){
+                                GradMin = Grad;
                             }
+                            Grad = 0;
+                            fila += 1;
                         }
-
-                        for (int i = 0; i < V; i++) {
-                            free(grafo[i]);
-                        }
-                        free(grafo);
-                        free(visitado);
+                    }
+                    fclose(file);
+                    if(!esConexo()){
+                        K = 0;
                     } else{
-                        K = V;
-                    }
-
-                    fin = clock();
-                    while(1){
-                        printf("\n[Tiempo de ejecucion = %fs]\n\n", ((double)(fin - inicio)) / CLOCKS_PER_SEC);
-                        printf("¿Que quieres saber del grafo?\n(1) Grado Maximo\n(2) Grado Minimo\n(3) Conexidad\n(4) Conectividad\n(5) Cerrar Grafo\n(6) Salir\nOpcion = ");
-                        scanf("%d", &Opcion2);
-                        if(Opcion2 == 1){
-                            system("clear");
-                            printf("\n[El grado maximo es %d]\n", GradMax);
-                        }
-                        else if(Opcion2 == 2){
-                            system("clear");
-                            printf("\n[El grado minimo es %d]\n", GradMin);
-                        }
-                        else if(Opcion2 == 3){
-                            system("clear");
-                            if(K > 0 || V == 0){
-                                printf("\n[Es conexo]\n");
+                        K = 1;
+                        for(int i = 0; i < V && Lock > 1; i++){
+                            visitado[i] = 1;
+                            if(!esConexo()){
+                                K = 1;
+                                Lock = 1;
                             } else{
-                                printf("\n[No es conexo]\n");
+                                K = 2;
                             }
-                        }
-                        else if(Opcion2 == 4){
-                            system("clear");
-                            printf("\n[Es %d-Conexo]\n", K);
-                            
-                        }
-                        else if(Opcion2 == 5){
-                            system("clear");
-                            break;
-                        }
-                        else if(Opcion2 == 6){
-                            exit(0);
-                        }
-                        else{
-                            system("clear");
-                            printf("ERROR no es opcion valida\n");   
+                            for(int j = 0; j < V && Lock > 2; j++){
+                                if (j != i && V > 2){
+                                    visitado[i] = 1;
+                                    visitado[j] = 1;
+                                    if(!esConexo()){
+                                        K = 2;
+                                        Lock = 2;
+                                    } else{
+                                        K = 3;
+                                    }
+                                    for(int k = 0; k < V && Lock > 3; k++){
+                                        if ( k != i && k != j && V > 3){
+                                            visitado[i] = 1;
+                                            visitado[j] = 1;
+                                            visitado[k] = 1;
+                                            if(!esConexo()){
+                                                K = 3;
+                                                Lock = 3;
+                                            } else{
+                                                K = 4;
+                                            }
+                                            visitado[k] = 0;
+                                        }
+                                    }  
+                                    visitado[j] = 0;
+                                }
+                            }
+                            visitado[i] = 0;
                         }
                     }
-                    system("clear");
-                }
-            case 2:
-                exit(0);
-            default:
-                system("clear");
-                printf("\nERROR no es opcion valida\n\n");
 
+                    for (int i = 0; i < V; i++) {
+                        free(grafo[i]);
+                    }
+                    free(grafo);
+                    free(visitado);
+                } else{
+                    K = V;
+                }
+
+                fin = clock();
+                while(1){
+                    printf("\n[Tiempo de ejecucion = %fs]\n\n", ((double)(fin - inicio)) / CLOCKS_PER_SEC);
+                    printf("¿Que quieres saber del grafo?\n(1) Grado Maximo\n(2) Grado Minimo\n(3) Conexidad\n(4) Conectividad\n(5) Cerrar Grafo\n(6) Salir\nOpcion = ");
+                    scanf("%d", &Opcion2);
+                    if(Opcion2 == 1){
+                        system("clear");
+                        printf("\n[El grado maximo es %d]\n", GradMax);
+                    }
+                    else if(Opcion2 == 2){
+                        system("clear");
+                        printf("\n[El grado minimo es %d]\n", GradMin);
+                    }
+                    else if(Opcion2 == 3){
+                        system("clear");
+                        if(K > 0 || V == 0){
+                            printf("\n[Es conexo]\n");
+                        } else{
+                            printf("\n[No es conexo]\n");
+                        }
+                    }
+                    else if(Opcion2 == 4){
+                        system("clear");
+                        printf("\n[Es %d-Conexo]\n", K);
+                        
+                    }
+                    else if(Opcion2 == 5){
+                        system("clear");
+                        break;
+                    }
+                    else if(Opcion2 == 6){
+                        exit(0);
+                    }
+                    else{
+                        system("clear");
+                        printf("ERROR no es opcion valida\n");   
+                    }
+                }
+            }
+        }
+        else{
+            system("clear");
+            printf("\nERROR no es opcion valida\n\n");
         }
     }
 }
