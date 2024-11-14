@@ -3,7 +3,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
-#include <time.h>
 
 int **grafo;
 int *visitado;
@@ -42,8 +41,8 @@ bool esConexo() {
 }
 
 int main() {
+    K = 5;
     char linea[256] , nombre_archivo[100];
-    clock_t inicio, fin;
 
     while(1){
         int fila = 0, GradMax = 0, GradMin = 0, Grad = 0, Lock = 0, Opcion1, Opcion2;
@@ -59,8 +58,7 @@ int main() {
             if (file == NULL) {
                 printf("Error al abrir el archivo o no existe.\n\n");
             } else{
-                inicio = clock();
-                int vertice = 0, GradMax = 0, GradMin = 0, Grad = 0, Lock = 0, Opcion1, Opcion2;
+                int fila = 0, GradMax = 0, GradMin = 0, Grad = 0, Lock = 0, Opcion1, Opcion2;
 
                 if (fgets(linea, sizeof(linea), file) != NULL) {
                     linea[strcspn(linea, "\n")] = '\0';
@@ -82,11 +80,11 @@ int main() {
                         }
                     }
 
-                    while (fgets(linea, sizeof(linea), file) != NULL) {
+                    while (fgets(linea, sizeof(linea), file) != NULL && fila < V) {
                         if(strchr(linea, ' ') != NULL){
                             char *token = strtok(strchr(linea, ' '), ", ");
                             while(token != NULL){
-                                grafo[vertice][atoi(token) - 1] = 1;
+                                grafo[fila][atoi(token) - 1] = 1;
                                 Grad += 1;
                                 token = strtok(NULL, ", ");
                             }
@@ -100,7 +98,7 @@ int main() {
                                 GradMin = Grad;
                             }
                             Grad = 0;
-                            vertice += 1;
+                            fila += 1;
                         }
                     }
                     fclose(file);
@@ -153,14 +151,11 @@ int main() {
                     }
                     free(grafo);
                     free(visitado);
-
-                    fin = clock();
                 } else{
                     K = V;
                 }
 
                 printf("\n");
-                printf("[Tiempo de ejecucion = %fs]\n\n", ((double)(fin - inicio)) / CLOCKS_PER_SEC);
                 while(1){
                     printf("¿Que quieres saber del grafo?\n(1) Grado Maximo\n(2) Grado Minimo\n(3) Conexidad\n(4) Conectividad\n(5) Cerrar Grafo\nOpcion = ");
                     scanf("%d", &Opcion2);
@@ -171,14 +166,14 @@ int main() {
                         printf("\n[El grado minimo es %d]\n\n", GradMin);
                     }
                     else if(Opcion2 == 3){
-                        if(K > 0 || V == 1 || V == 0){
+                        if(K > 0 || V == 1){
                             printf("\n[Es conexo]\n\n");
                         } else{
                             printf("\n[No es conexo]\n\n");
                         }
                     }
                     else if(Opcion2 == 4){
-                        if(K > 0 || V == 0){
+                        if(K > 0 || V == 1){
                             printf("\n[Es %d-Conexo]\n\n", K);
                         }
                         else{
