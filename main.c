@@ -9,6 +9,12 @@ int **grafo;
 int *visitado;
 int V, K;
 
+#ifdef _WIN32
+    #define clear system("cls");
+#else
+    #define clear system("clear");
+#endif
+
 void DFS(int v) {
     visitado[v] = 1;
     for (int i = 0; i < V; i++) {
@@ -42,7 +48,7 @@ bool esConexo() {
 }
 
 int main() {
-    system("clear");
+    clear;
     char linea[256] , nombre_archivo[100];
     clock_t inicio, fin;
 
@@ -59,10 +65,10 @@ int main() {
             scanf(" %[^\n]", nombre_archivo);
             FILE *file = fopen(nombre_archivo, "r");
             if (file == NULL) {
-                system("clear");
+                clear;
                 printf("Error al abrir el archivo o no existe.\n\n");
             } else{
-                system("clear");
+                clear;
                 inicio = clock();
                 int fila = 0, GradMax = 0, GradMin = 0, Grad = 0, Lock = 4;
 
@@ -166,15 +172,15 @@ int main() {
                     printf("¿Que quieres saber del grafo?\n(1) Grado Maximo\n(2) Grado Minimo\n(3) Conexidad\n(4) Conectividad\n(5) Cerrar Grafo\n(6) Salir\nOpcion = ");
                     scanf(" %[^\n]", Opcion2);
                     if(strcmp(Opcion2, "1") == 0){
-                        system("clear");
+                        clear;
                         printf("\n[El grado maximo es %d]\n", GradMax);
                     }
                     else if(strcmp(Opcion2, "2") == 0){
-                        system("clear");
+                        clear;
                         printf("\n[El grado minimo es %d]\n", GradMin);
                     }
                     else if(strcmp(Opcion2, "3") == 0){
-                        system("clear");
+                        clear;
                         if(K > 0 || V == 0){
                             printf("\n[Es conexo]\n");
                         } else{
@@ -182,26 +188,26 @@ int main() {
                         }
                     }
                     else if(strcmp(Opcion2, "4") == 0){
-                        system("clear");
+                        clear;
                         printf("\n[Es %d-Conexo]\n", K);
                         
                     }
                     else if(strcmp(Opcion2, "5") == 0){
-                        system("clear");
+                        clear;
                         break;
                     }
                     else if(strcmp(Opcion2, "6") == 0){
                         exit(0);
                     }
                     else{
-                        system("clear");
+                        clear;
                         printf("\nERROR no es opcion valida\n");   
                     }
                 }
             }
         }
         else{
-            system("clear");
+            clear;
             printf("\nERROR no es opcion valida\n\n");
         }
     }
