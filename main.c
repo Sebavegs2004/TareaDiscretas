@@ -50,7 +50,7 @@ int main() {
         int fila = 0, GradMax = 0, GradMin = 0, Grad = 0, Lock = 0;
         char Opcion1[] = " ", Opcion2[] = " ";
         printf("¿Que quieres hacer?\n(1) Cargar grafo\n(2) Salir\nOpcion = ");
-        scanf("%s", Opcion1);
+        scanf(" %[^\n]", Opcion1);
         if(strcmp(Opcion1, "2") == 0){
             exit(0);
         }
@@ -164,7 +164,7 @@ int main() {
                 while(1){
                     printf("\n[Tiempo de ejecucion = %fs]\n\n", ((double)(fin - inicio)) / CLOCKS_PER_SEC);
                     printf("¿Que quieres saber del grafo?\n(1) Grado Maximo\n(2) Grado Minimo\n(3) Conexidad\n(4) Conectividad\n(5) Cerrar Grafo\n(6) Salir\nOpcion = ");
-                    scanf("%s", Opcion2);
+                    scanf(" %[^\n]", Opcion2);
                     if(strcmp(Opcion2, "1") == 0){
                         system("clear");
                         printf("\n[El grado maximo es %d]\n", GradMax);
