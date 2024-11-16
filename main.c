@@ -55,7 +55,7 @@ int main() {
     while(1){
         int fila = 0, GradMax = 0, GradMin = 0, Grad = 0, Lock = 0;
         char Opcion1[] = " ", Opcion2[] = " ";
-        printf("\033[1;34m¿Qué quieres hacer?\033[0m\n\033[1;32m(1) Cargar grafo\033[0m\n\033[1;31m(2) Salir\033[0m\n\033[1;34mOpción = \033[0m");
+        printf("\033[1;34m¿Que quieres hacer?\033[0m\n\033[1;32m(1) Cargar grafo\033[0m\n\033[1;31m(2) Salir\033[0m\n\033[1;34mOpcion = \033[0m");
         scanf(" %[^\n]", Opcion1);
         if(strcmp(Opcion1, "2") == 0){
             printf("\033[1;31mSaliendo del programa...\033[0m\n");
@@ -171,15 +171,15 @@ int main() {
                 fin = clock();
                 while(1){
                     printf("\n\033[1;36m[Numero de vertices = \033[1;33m%d\033[1;36m]\n[Tiempo de ejecucion = \033[1;32m%fs\033[1;36m]\033[0m\n\n", V, ((double)(fin - inicio)) / CLOCKS_PER_SEC);
-                    printf("\033[1;34m¿Qué quieres saber del grafo?\033[0m\n\033[1;33m(1) Grado Máximo\033[0m\n\033[1;35m(2) Grado Mínimo\033[0m\n\033[1;36m(3) Conexidad\033[0m\n\033[1;32m(4) Conectividad\033[0m\n\033[1;31m(5) Cerrar Grafo\033[0m\n\033[1;37m(6) Salir\033[0m\n\033[1;34mOpción = \033[0m");
+                    printf("\033[1;34m¿Que quieres saber del grafo?\033[0m\n\033[1;33m(1) Grado Maximo\033[0m\n\033[1;35m(2) Grado Minimo\033[0m\n\033[1;36m(3) Conexidad\033[0m\n\033[1;32m(4) Conectividad\033[0m\n\033[1;31m(5) Cerrar Grafo\033[0m\n\033[1;37m(6) Salir\033[0m\n\033[1;34mOpcion = \033[0m");
                     scanf(" %[^\n]", Opcion2);
                     if(strcmp(Opcion2, "1") == 0){
                         clear;
-                        printf("\n\033[1;35m[El grado máximo es: \033[1;35m%d\033[1;35m]\033[0m\n", GradMax);
+                        printf("\n\033[1;35m[El grado maximo es: \033[1;35m%d\033[1;35m]\033[0m\n", GradMax);
                     }
                     else if(strcmp(Opcion2, "2") == 0){
                         clear;
-                        printf("\n\033[1;36m[El grado mínimo es: \033[1;36m%d\033[1;36m]\033[0m\n", GradMin);
+                        printf("\n\033[1;36m[El grado minimo es: \033[1;36m%d\033[1;36m]\033[0m\n", GradMin);
                     }
                     else if(strcmp(Opcion2, "3") == 0){
                         clear;
@@ -202,11 +202,12 @@ int main() {
                         break;
                     }
                     else if(strcmp(Opcion2, "6") == 0){
+                        printf("\033[1;31mSaliendo del programa...\033[0m\n");
                         exit(0);
                     }
                     else{
                         clear;
-                            printf("\n\033[1;31mERROR: \033[1;33mNo es una opción válida.\033[0m\n");
+                            printf("\n\033[1;31mERROR: \033[1;33mNo es una opcion valida.\033[0m\n");
 
                     }
                 }
@@ -214,7 +215,7 @@ int main() {
         }
         else{
             clear;
-            printf("\n\033[1;31mERROR: \033[1;33mNo es una opción válida.\033[0m\n\n");
+            printf("\n\033[1;31mERROR: \033[1;33mNo es una opcion valida.\033[0m\n\n");
 
         }
     }
